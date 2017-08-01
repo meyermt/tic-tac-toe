@@ -25,10 +25,6 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="374"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="oicon" translatesAutoresizingMaskIntoConstraints="NO" id="i5U-CQ-OPv">
-                                <rect key="frame" x="269" y="557" width="90" height="90"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIA-FO-wAK">
                                 <rect key="frame" x="176" y="32" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -41,7 +37,6 @@
                     </view>
                     <connections>
                         <outlet property="board" destination="HFn-Iz-YRS" id="QfT-VL-5C9"/>
-                        <outlet property="oImage" destination="i5U-CQ-OPv" id="VXt-ks-GVs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -51,6 +46,5 @@
     </scenes>
     <resources>
         <image name="board" width="187" height="187"/>
-        <image name="oicon" width="45" height="45"/>
     </resources>
 </document>

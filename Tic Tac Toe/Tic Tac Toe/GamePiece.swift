@@ -14,16 +14,29 @@ class GamePiece: UIImageView {
     // MARK: - Initialization
     //
     
-    init (type: String) {
-        if (type == "xicon") {
+    init (type: String, inPlay: Bool) {
+        if (type == "xicon" && inPlay) {
             super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
+            self.isUserInteractionEnabled = true
             self.tag = 102
+        } else if (type == "xicon" && !inPlay) {
+            super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
+            self.isUserInteractionEnabled = false
+            self.alpha = 0.5
+            self.tag = 103
+            print("trying alpha x")
+        } else if (type == "oicon" && inPlay) {
+            super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
+            self.isUserInteractionEnabled = true
+            self.tag = 104
         } else {
             super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
-            self.tag = 103
+            self.isUserInteractionEnabled = false
+            self.alpha = 0.5
+            self.tag = 105
+            print("trying alpha o")
         }
         self.image = UIImage(named: type)
-        self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
