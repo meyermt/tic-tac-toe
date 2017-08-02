@@ -260,13 +260,14 @@ class ViewController: UIViewController {
                 (xoSpots[0].tag == tag && xoSpots[4].tag == tag && xoSpots[8].tag == tag) ||
                 (xoSpots[2].tag == tag && xoSpots[4].tag == tag && xoSpots[6].tag == tag)) {
                 winner = tag
+//                drawALine(xoSpots[0].center, xoSpots[8].center)
             }
         }
         return winner
     }
     
     private func clearAllPieces() {
-        for num in 103...114 {
+        for num in 103...113 {
             if let piece = self.view.viewWithTag(num) {
                 piece.removeFromSuperview()
             }
@@ -280,6 +281,18 @@ class ViewController: UIViewController {
         self.clearAllPieces()
         self.viewDidAppear(true)
     }
+    
+//    private func drawALine(_ pt1: CGPoint, _ pt2: CGPoint) {
+//        let line = CAShapeLayer()
+//        let linePath = UIBezierPath()
+//        linePath.move(to: pt1)
+//        linePath.addLine(to: pt2)
+//        line.path = linePath.cgPath
+//        line.strokeColor = UIColor.red.cgColor
+//        line.lineWidth = 10
+//        line.lineJoin = kCALineJoinRound
+//        self.view.layer.addSublayer(line)
+//    }
 
 }
 
