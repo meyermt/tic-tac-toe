@@ -9,6 +9,13 @@
 import UIKit
 
 class GamePiece: UIImageView {
+    
+    // MARK: Properties
+    
+    var xPlay = 105
+    let xNoPlay = 103
+    var oPlay = 110
+    let oNoPlay = 104
 
     //
     // MARK: - Initialization
@@ -18,23 +25,23 @@ class GamePiece: UIImageView {
         if (type == "xicon" && inPlay) {
             super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = true
-            self.tag = 102
+            self.tag = xPlay
+            xPlay += 1
         } else if (type == "xicon" && !inPlay) {
             super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = false
             self.alpha = 0.5
-            self.tag = 103
-            print("trying alpha x")
+            self.tag = xNoPlay
         } else if (type == "oicon" && inPlay) {
             super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = true
-            self.tag = 104
+            self.tag = oPlay
+            oPlay += 1
         } else {
             super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = false
             self.alpha = 0.5
-            self.tag = 105
-            print("trying alpha o")
+            self.tag = oNoPlay
         }
         self.image = UIImage(named: type)
     }

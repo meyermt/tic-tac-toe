@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var board: UIImageView!
     
+    let xTag = 98
+    let oTag = 99
     var isXTurn = true
     var gameInProgress = true
     var canDisplayAWinner = false
@@ -93,6 +95,15 @@ class ViewController: UIViewController {
         
     }
     
+    private func clearWaitingPiece() {
+        if let piece = view.viewWithTag(103) {
+            piece.removeFromSuperview()
+        }
+        if let piece = view.viewWithTag(104) {
+            piece.removeFromSuperview()
+        }
+    }
+    
     // MARK: Gesture Recognizers
     
     /// Reposition the center of a view to correspond with a touch point
@@ -121,7 +132,7 @@ class ViewController: UIViewController {
     private func trySnapToSquare(_ insideView: UIView) {
         var intersects = [UIView:CGFloat]()
         for spot in xoSpots {
-            if (spot.frame.intersects(insideView.frame) && spot.tag != 99) {
+            if (spot.frame.intersects(insideView.frame) && spot.tag != xTag && spot.tag != oTag) {
                 // - Attributions: https://stackoverflow.com/questions/1906511/how-to-find-the-distance-between-two-cg-points
                 func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
                     let xDist = a.x - b.x
@@ -130,31 +141,70 @@ class ViewController: UIViewController {
                 }
                 let dist = distance(insideView.center, spot.center)
                 intersects[spot] = dist
+            } else if (spot.frame.intersects(insideView.frame) && (spot.tag == xTag || spot.tag == oTag)) {
+                // add sound code here, buzzer
             }
             
         }
         
         for (spot, dist) in intersects {
             if dist == intersects.values.min() {
+                // TODO: animation needed here
+                // TODO: sounds should be added here
+                if (isXTurn) {
+                    spot.tag = xTag
+                } else {
+                    spot.tag = oTag
+                }
                 insideView.center = spot.center
-                spot.tag = 99 // means it's taken
-                // TODO: need to uncomment this
+
                 insideView.isUserInteractionEnabled = false
                 
-                //checkWinner()
-                // other person's turn
-                isXTurn = !isXTurn
-                if (isXTurn) {
-                    newInPlayPiece(type: "xicon")
-                    newOutPlayPiece(type: "oicon")
+                if (isWinner() == 0) {
+                    // other person's turn
+                    isXTurn = !isXTurn
+                    clearWaitingPiece()
+                    if (isXTurn) {
+                        newInPlayPiece(type: "xicon")
+                        newOutPlayPiece(type: "oicon")
+                    } else {
+                        newInPlayPiece(type: "oicon")
+                        newOutPlayPiece(type: "xicon")
+                    }
                 } else {
-                    newInPlayPiece(type: "oicon")
-                    newOutPlayPiece(type: "xicon")
+                    // TODO: Congratulate the winner
+                    // TODO: add code to clear game
+                    self.clearAllPieces()
+                    self.viewDidLoad()
                 }
             }
         }
     }
-
+    
+    private func isWinner() -> Int {
+        var winner = 0
+        for tag in [xTag, oTag] {
+            if ((xoSpots[0].tag == tag && xoSpots[1].tag == tag && xoSpots[2].tag == tag) ||
+                (xoSpots[3].tag == tag && xoSpots[4].tag == tag && xoSpots[5].tag == tag) ||
+                (xoSpots[6].tag == tag && xoSpots[7].tag == tag && xoSpots[8].tag == tag) ||
+                (xoSpots[0].tag == tag && xoSpots[3].tag == tag && xoSpots[6].tag == tag) ||
+                (xoSpots[1].tag == tag && xoSpots[4].tag == tag && xoSpots[7].tag == tag) ||
+                (xoSpots[2].tag == tag && xoSpots[5].tag == tag && xoSpots[8].tag == tag) ||
+                (xoSpots[0].tag == tag && xoSpots[4].tag == tag && xoSpots[8].tag == tag) ||
+                (xoSpots[2].tag == tag && xoSpots[4].tag == tag && xoSpots[6].tag == tag)) {
+                winner = tag
+            }
+        }
+        return winner
+    }
+    
+    private func clearAllPieces() {
+        for num in 103...115 {
+            if let piece = view.viewWithTag(num) {
+                piece.removeFromSuperview()
+            }
+        }
+    }
 
 }
 
