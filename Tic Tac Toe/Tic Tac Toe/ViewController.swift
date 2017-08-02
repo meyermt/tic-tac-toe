@@ -30,6 +30,7 @@ class ViewController: UIViewController {
             oldView.removeFromSuperview()
         }
         
+        // - Attributions: https://github.com/uchicago-mobi/mpcs51030-2017-summer-playground/blob/master/Session6-GroundhogDay/GroundhogDay/ViewController.swift
         // Get an offscreen position
         let offscreen = CGRect(x: 15, y: -200, width: 340, height: 250)
         
@@ -95,6 +96,7 @@ class ViewController: UIViewController {
     
     // MARK: Gesture Recognizers
     
+    // - Attributions: https://github.com/uchicago-mobi/mpcs51030-2017-summer-playground/blob/master/Session6-GroundhogDay/GroundhogDay/ViewController.swift
     func handlePan(_ recognizer:UIPanGestureRecognizer) {
         
         // Determine where the view is in relation to the superview
@@ -265,9 +267,7 @@ class ViewController: UIViewController {
     
     private func clearAllPieces() {
         for num in 103...114 {
-            print("looking for piece")
             if let piece = self.view.viewWithTag(num) {
-                print("found piece \(num)")
                 piece.removeFromSuperview()
             }
         }
