@@ -110,6 +110,10 @@ class ViewController: UIViewController {
         // in offsets
         recognizer.setTranslation(CGPoint.zero, in: self.view)
         if let insideView = recognizer.view {
+            if (recognizer.state == .began) {
+                SoundManager.sharedInstance.playSwipe()
+            }
+            
             if (recognizer.state == .ended) {
                 trySnapToSquare(insideView)
             }
