@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         infoView.addSubview(button)
         
         UIView.animate(withDuration: 0.2, delay: 0.2, options: UIViewAnimationOptions(), animations: { () -> Void in
+            SoundManager.sharedInstance.playSwipe()
             infoView.center = self.view.center
         })
     }
@@ -91,6 +92,30 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: Gesture Recognizers
+    
+    func handlePan(_ recognizer:UIPanGestureRecognizer) {
+        
+        // Determine where the view is in relation to the superview
+        let translation = recognizer.translation(in: self.view)
+        
+        if let view = recognizer.view {
+            // Set the view's center to the new position
+            view.center = CGPoint(x:view.center.x + translation.x,
+                                  y:view.center.y + translation.y)
+        }
+        
+        // Reset the translation back to zero, so we are dealing
+        // in offsets
+        recognizer.setTranslation(CGPoint.zero, in: self.view)
+        if let insideView = recognizer.view {
+            if (recognizer.state == .ended) {
+                trySnapToSquare(insideView)
+            }
+        }
+    }
+    
     // MARK: Custom Functions
     
     @objc private func buttonTapped(_ button: UIButton!) {
@@ -98,6 +123,7 @@ class ViewController: UIViewController {
             return
         }
         UIView.animate(withDuration: 0.3, delay: 0.3, options: UIViewAnimationOptions(), animations: { () -> Void in
+            SoundManager.sharedInstance.playSwipe()
             infoView.center = CGPoint(x: 187.5, y: 1000)
         })
     }
@@ -139,33 +165,9 @@ class ViewController: UIViewController {
         }
     }
     
-    // MARK: Gesture Recognizers
-    
-    /// Reposition the center of a view to correspond with a touch point
-    /// - Parameter recognizer: The gesture that is recognized
-    func handlePan(_ recognizer:UIPanGestureRecognizer) {
-        
-        // Determine where the view is in relation to the superview
-        let translation = recognizer.translation(in: self.view)
-        
-        if let view = recognizer.view {
-            // Set the view's center to the new position
-            view.center = CGPoint(x:view.center.x + translation.x,
-                                  y:view.center.y + translation.y)
-        }
-        
-        // Reset the translation back to zero, so we are dealing
-        // in offsets
-        recognizer.setTranslation(CGPoint.zero, in: self.view)
-        if let insideView = recognizer.view {
-            if (recognizer.state == .ended) {
-                trySnapToSquare(insideView)
-            }
-        }
-    }
-    
     private func trySnapToSquare(_ insideView: UIView) {
         var intersects = [UIView:CGFloat]()
+        var playBuzzer = false
         for spot in xoSpots {
             if (spot.frame.intersects(insideView.frame) && spot.tag != xTag && spot.tag != oTag) {
                 // - Attributions: https://stackoverflow.com/questions/1906511/how-to-find-the-distance-between-two-cg-points
@@ -177,43 +179,60 @@ class ViewController: UIViewController {
                 let dist = distance(insideView.center, spot.center)
                 intersects[spot] = dist
             } else if (spot.frame.intersects(insideView.frame) && (spot.tag == xTag || spot.tag == oTag)) {
-                // add sound code here, buzzer
+                playBuzzer = true
             }
-            
+        }
+        
+        if (playBuzzer && intersects.isEmpty) {
+            SoundManager.sharedInstance.playBuzzer()
         }
         
         for (spot, dist) in intersects {
             if dist == intersects.values.min() {
-                // TODO: animation needed here
-                // TODO: sounds should be added here
                 if (isXTurn) {
                     spot.tag = xTag
                 } else {
                     spot.tag = oTag
                 }
-                insideView.center = spot.center
-
+                animateToSnap(spot: spot, piece: insideView)
                 insideView.isUserInteractionEnabled = false
                 
                 let winner = isWinner()
                 
                 if (winner == 0) {
-                    // other person's turn
-                    isXTurn = !isXTurn
-                    clearWaitingPiece()
-                    if (isXTurn) {
-                        newInPlayPiece(type: "xicon")
-                        newOutPlayPiece(type: "oicon")
+                    if (pieceTag == 114) { // the game is a wash
+                        self.alertTie()
                     } else {
-                        newInPlayPiece(type: "oicon")
-                        newOutPlayPiece(type: "xicon")
+                        // other person's turn
+                        isXTurn = !isXTurn
+                        clearWaitingPiece()
+                        if (isXTurn) {
+                            newInPlayPiece(type: "xicon")
+                            newOutPlayPiece(type: "oicon")
+                        } else {
+                            newInPlayPiece(type: "oicon")
+                            newOutPlayPiece(type: "xicon")
+                        }
                     }
                 } else {
-                    // TODO: Congratulate the winner
+                    SoundManager.sharedInstance.playCongrats()
                     self.alertWinner(winner)
                 }
             }
         }
+    }
+    
+    private func animateToSnap(spot: UIView, piece: UIView) {
+        UIView.animate(withDuration: 0.2, delay: 0.2, options: UIViewAnimationOptions(), animations: { () -> Void in
+            SoundManager.sharedInstance.playNiceMove()
+            piece.center = spot.center
+        })
+    }
+    
+    private func alertTie() {
+        let alert = UIAlertController(title: "Game Over", message: "No one wins!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "New Game", style: UIAlertActionStyle.default, handler: startNewGame))
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func alertWinner(_ winner: Int) {
@@ -248,10 +267,12 @@ class ViewController: UIViewController {
                 piece.removeFromSuperview()
             }
         }
+        for view in self.view.subviews {
+            view.tag = 0
+        }
     }
     
     private func startNewGame(action: UIAlertAction) {
-        // TODO: add code to clear game
         self.clearAllPieces()
         self.viewDidAppear(true)
     }

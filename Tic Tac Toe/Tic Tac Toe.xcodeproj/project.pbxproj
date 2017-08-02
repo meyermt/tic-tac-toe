@@ -13,6 +13,11 @@
 		B3FED5B61F303BE800BB12F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5B51F303BE800BB12F9 /* Assets.xcassets */; };
 		B3FED5B91F303BE800BB12F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5B71F303BE800BB12F9 /* LaunchScreen.storyboard */; };
 		B3FED5C11F30448100BB12F9 /* GamePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FED5C01F30448100BB12F9 /* GamePiece.swift */; };
+		B3FED5C31F31723F00BB12F9 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FED5C21F31723F00BB12F9 /* SoundManager.swift */; };
+		B3FED5C81F317EA300BB12F9 /* nicemove.caf in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5C71F317EA300BB12F9 /* nicemove.caf */; };
+		B3FED5CC1F317F0200BB12F9 /* buzzer.caf in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5C91F317F0200BB12F9 /* buzzer.caf */; };
+		B3FED5CD1F317F0200BB12F9 /* congrats.caf in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5CA1F317F0200BB12F9 /* congrats.caf */; };
+		B3FED5CE1F317F0200BB12F9 /* swipe.caf in Resources */ = {isa = PBXBuildFile; fileRef = B3FED5CB1F317F0200BB12F9 /* swipe.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		B3FED5B81F303BE800BB12F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3FED5BA1F303BE800BB12F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3FED5C01F30448100BB12F9 /* GamePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePiece.swift; sourceTree = "<group>"; };
+		B3FED5C21F31723F00BB12F9 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		B3FED5C71F317EA300BB12F9 /* nicemove.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nicemove.caf; sourceTree = "<group>"; };
+		B3FED5C91F317F0200BB12F9 /* buzzer.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = buzzer.caf; sourceTree = "<group>"; };
+		B3FED5CA1F317F0200BB12F9 /* congrats.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = congrats.caf; sourceTree = "<group>"; };
+		B3FED5CB1F317F0200BB12F9 /* swipe.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swipe.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +50,10 @@
 		B3FED5A21F303BE800BB12F9 = {
 			isa = PBXGroup;
 			children = (
+				B3FED5C91F317F0200BB12F9 /* buzzer.caf */,
+				B3FED5CA1F317F0200BB12F9 /* congrats.caf */,
+				B3FED5CB1F317F0200BB12F9 /* swipe.caf */,
+				B3FED5C71F317EA300BB12F9 /* nicemove.caf */,
 				B3FED5AD1F303BE800BB12F9 /* Tic Tac Toe */,
 				B3FED5AC1F303BE800BB12F9 /* Products */,
 			);
@@ -63,6 +77,7 @@
 				B3FED5B51F303BE800BB12F9 /* Assets.xcassets */,
 				B3FED5B71F303BE800BB12F9 /* LaunchScreen.storyboard */,
 				B3FED5BA1F303BE800BB12F9 /* Info.plist */,
+				B3FED5C21F31723F00BB12F9 /* SoundManager.swift */,
 			);
 			path = "Tic Tac Toe";
 			sourceTree = "<group>";
@@ -128,7 +143,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3FED5B91F303BE800BB12F9 /* LaunchScreen.storyboard in Resources */,
+				B3FED5CD1F317F0200BB12F9 /* congrats.caf in Resources */,
+				B3FED5CC1F317F0200BB12F9 /* buzzer.caf in Resources */,
 				B3FED5B61F303BE800BB12F9 /* Assets.xcassets in Resources */,
+				B3FED5C81F317EA300BB12F9 /* nicemove.caf in Resources */,
+				B3FED5CE1F317F0200BB12F9 /* swipe.caf in Resources */,
 				B3FED5B41F303BE800BB12F9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +161,7 @@
 			files = (
 				B3FED5C11F30448100BB12F9 /* GamePiece.swift in Sources */,
 				B3FED5B11F303BE800BB12F9 /* ViewController.swift in Sources */,
+				B3FED5C31F31723F00BB12F9 /* SoundManager.swift in Sources */,
 				B3FED5AF1F303BE800BB12F9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
