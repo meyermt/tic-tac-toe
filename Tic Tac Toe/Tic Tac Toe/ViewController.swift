@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     let xTag = 98
     let oTag = 99
+    var pieceTag = 105
     var isXTurn = true
     var gameInProgress = true
     var canDisplayAWinner = false
@@ -66,7 +67,8 @@ class ViewController: UIViewController {
     
     private func newInPlayPiece(type: String) {
         
-        let piece = GamePiece(type: type, inPlay: true)
+        let piece = GamePiece(type: type, inPlay: true, tagNum: pieceTag)
+        pieceTag += 1
         // Create a pan gesture recoginzer
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         
@@ -87,7 +89,7 @@ class ViewController: UIViewController {
     }
     
     private func newOutPlayPiece(type: String) {
-        let piece = GamePiece(type: type, inPlay: false)
+        let piece = GamePiece(type: type, inPlay: false, tagNum: 0)
         self.view.addSubview(piece)
     }
     
@@ -96,10 +98,10 @@ class ViewController: UIViewController {
     }
     
     private func clearWaitingPiece() {
-        if let piece = view.viewWithTag(103) {
+        if let piece = self.view.viewWithTag(103) {
             piece.removeFromSuperview()
         }
-        if let piece = view.viewWithTag(104) {
+        if let piece = self.view.viewWithTag(104) {
             piece.removeFromSuperview()
         }
     }
@@ -160,7 +162,9 @@ class ViewController: UIViewController {
 
                 insideView.isUserInteractionEnabled = false
                 
-                if (isWinner() == 0) {
+                let winner = isWinner()
+                
+                if (winner == 0) {
                     // other person's turn
                     isXTurn = !isXTurn
                     clearWaitingPiece()
@@ -173,12 +177,17 @@ class ViewController: UIViewController {
                     }
                 } else {
                     // TODO: Congratulate the winner
-                    // TODO: add code to clear game
-                    self.clearAllPieces()
-                    self.viewDidLoad()
+                    self.alertWinner(winner)
                 }
             }
         }
+    }
+    
+    private func alertWinner(_ winner: Int) {
+        let winnerStr = winner == xTag ? "X" : "O"
+        let alert = UIAlertController(title: "Game Over", message: "\(winnerStr) wins!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "New Game", style: UIAlertActionStyle.default, handler: startNewGame))
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func isWinner() -> Int {
@@ -199,11 +208,19 @@ class ViewController: UIViewController {
     }
     
     private func clearAllPieces() {
-        for num in 103...115 {
-            if let piece = view.viewWithTag(num) {
+        for num in 103...114 {
+            print("looking for piece")
+            if let piece = self.view.viewWithTag(num) {
+                print("found piece \(num)")
                 piece.removeFromSuperview()
             }
         }
+    }
+    
+    private func startNewGame(action: UIAlertAction) {
+        // TODO: add code to clear game
+        self.clearAllPieces()
+        self.viewDidAppear(true)
     }
 
 }

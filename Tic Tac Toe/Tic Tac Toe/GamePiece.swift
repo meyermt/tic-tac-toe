@@ -12,21 +12,18 @@ class GamePiece: UIImageView {
     
     // MARK: Properties
     
-    var xPlay = 105
     let xNoPlay = 103
-    var oPlay = 110
     let oNoPlay = 104
 
     //
     // MARK: - Initialization
     //
     
-    init (type: String, inPlay: Bool) {
+    init (type: String, inPlay: Bool, tagNum: Int) {
         if (type == "xicon" && inPlay) {
             super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = true
-            self.tag = xPlay
-            xPlay += 1
+            self.tag = tagNum
         } else if (type == "xicon" && !inPlay) {
             super.init(frame : CGRect(x: 16, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = false
@@ -35,8 +32,7 @@ class GamePiece: UIImageView {
         } else if (type == "oicon" && inPlay) {
             super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = true
-            self.tag = oPlay
-            oPlay += 1
+            self.tag = tagNum
         } else {
             super.init(frame : CGRect(x: 269, y: 557, width: 90, height: 90))
             self.isUserInteractionEnabled = false
