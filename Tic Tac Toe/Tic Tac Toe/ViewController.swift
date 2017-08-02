@@ -26,6 +26,34 @@ class ViewController: UIViewController {
     
     @IBAction func infoButton(_ sender: Any) {
         
+        if let oldView = self.view.viewWithTag(120) {
+            oldView.removeFromSuperview()
+        }
+        
+        // Get an offscreen position
+        let offscreen = CGRect(x: 15, y: -200, width: 340, height: 250)
+        
+        let infoView = UITextView(frame: offscreen)
+        infoView.backgroundColor = UIColor.gray
+        infoView.tag = 120
+        infoView.text = "\n\n\nWelcome to the classic game of tic tac toe. Here are the rules:\n" +
+            "- Each player is assigned a mark, an X or an O\n" +
+            "- Players take turns placing their mark in the grid\n" +
+        "- The first player to get three of their marks in a row wins!"
+        
+        // Add the sun to the field
+        self.view.addSubview(infoView)
+    
+        
+        let button = UIButton(frame: CGRect(x: 120, y: 190, width: 100, height: 50))
+        button.setTitle("Dismiss", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        infoView.addSubview(button)
+        
+        UIView.animate(withDuration: 0.2, delay: 0.2, options: UIViewAnimationOptions(), animations: { () -> Void in
+            infoView.center = self.view.center
+        })
     }
     
     
@@ -65,6 +93,15 @@ class ViewController: UIViewController {
     
     // MARK: Custom Functions
     
+    @objc private func buttonTapped(_ button: UIButton!) {
+        guard let infoView = self.view.viewWithTag(120) else {
+            return
+        }
+        UIView.animate(withDuration: 0.3, delay: 0.3, options: UIViewAnimationOptions(), animations: { () -> Void in
+            infoView.center = CGPoint(x: 187.5, y: 1000)
+        })
+    }
+    
     private func newInPlayPiece(type: String) {
         
         let piece = GamePiece(type: type, inPlay: true, tagNum: pieceTag)
@@ -91,10 +128,6 @@ class ViewController: UIViewController {
     private func newOutPlayPiece(type: String) {
         let piece = GamePiece(type: type, inPlay: false, tagNum: 0)
         self.view.addSubview(piece)
-    }
-    
-    private func clearGame() {
-        
     }
     
     private func clearWaitingPiece() {
