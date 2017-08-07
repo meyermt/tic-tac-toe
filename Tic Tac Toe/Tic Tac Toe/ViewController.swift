@@ -279,6 +279,8 @@ class ViewController: UIViewController {
     
     private func startNewGame(action: UIAlertAction) {
         self.clearAllPieces()
+        self.pieceTag = 105
+        isXTurn = true
         self.viewDidAppear(true)
     }
     
