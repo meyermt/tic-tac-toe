@@ -1,5 +1,5 @@
-# mpcs51030-2017-summer-assignment-6-meyermt
-mpcs51030-2017-summer-assignment-6-meyermt created by GitHub Classroom
+# Tic Tac Toe
+Simple iOS Tic Tac Toe game.
 
 ## Overview
 
